@@ -32,7 +32,7 @@ const Result = {
     },
     error(data, error) {
         return {
-            success: true,
+            success: false,
             timestamp: new Date().toISOString(),
             message: error.message || error,
             data: data || "N/A"

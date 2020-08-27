@@ -8,13 +8,13 @@ router.get('/question', questionController.all);
 router.get('/question/:id', questionController.getOne);
 router.post('/question', questionController.create);
 router.put('/question/:id', questionController.update);
-router.delete('/question', questionController.create);
+router.delete('/question/:id', questionController.remove);
 
 router.get('/answer', answerController.all);
 router.get('/answer/:id', answerController.getOne);
 router.post('/answer', answerController.create);
 router.put('/answer/:id', answerController.update);
-router.delete('/answer', answerController.create);
+router.delete('/answer/:id', answerController.remove);
 router.get('/answerOfQuestion/:question_id', answerController.getByQuestion);
 
 module.exports = router;

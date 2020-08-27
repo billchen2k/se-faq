@@ -2,7 +2,7 @@ const { Question, Result } = require('../model');
 
 const questionController = {
     all(req, res) {
-        Question.find({}).exec((err, r) => {
+        Question.find({}, (err, r) => {
             res.json(Result.ok(r));
         })
     },
@@ -20,6 +20,10 @@ const questionController = {
     },
     create(req, res) {
         let newQuestion = new Question(req.body);
+        if(!newQuestion.content) {
+            res.json(Result.error(newQuestion, "Content is required."));
+            return;
+        }
         console.log(newQuestion);
         newQuestion.timestamp = new Date().toISOString();
         newQuestion.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -28,7 +32,7 @@ const questionController = {
         })
     },
     remove(req, res) {
-        Question.findOne( {_id: req.params.id}).remove((err, removed) => {
+        Question.remove({ _id: req.params.id }, (err, removed) => {
             res.json(Result.ok(removed));
         })
     }

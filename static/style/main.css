@@ -1,0 +1,20 @@
+@import url('https://fonts.geekzu.org/css?family=Fira+Code');
+
+#app {
+    font-family: "Fira Code", "PingFang SC", "Microsoft YaHei UI";
+    background-color: #ffffff;
+}
+
+.v-application {
+    font-family: "Fira Code", "PingFang SC", "Microsoft YaHei UI";
+}
+
+img {
+    max-width: 95%;
+}
+
+.v-application p {
+    color: #444444;
+    margin-bottom: 0;
+}
+

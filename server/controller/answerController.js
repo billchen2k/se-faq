@@ -25,7 +25,10 @@ const answerController = {
     },
     create(req, res) {
         let newAnswer = new Answer(req.body);
-        console.log(newAnswer);
+        if(!newAnswer.content || !newAnswer.question_id) {
+            res.json(Result.error(newAnswer, 'Content & Question ID is required.'));
+            return;
+        }
         newAnswer.timestamp = new Date().toISOString();
         newAnswer.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         newAnswer.save((err, saved) => {
@@ -33,7 +36,7 @@ const answerController = {
         })
     },
     remove(req, res) {
-        Answer.findOne( {_id: req.params.id}).remove((err, removed) => {
+        Answer.findOne( { s_id: req.params.id}).remove((err, removed) => {
             res.json(Result.ok(removed));
         })
     }

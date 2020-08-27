@@ -34,6 +34,10 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.listen(require('./config.json').SERVER_PORT, function () {
+  console.info('LISTENING ON PORT ' + require('./config.json').SERVER_PORT + '.');
+});
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
