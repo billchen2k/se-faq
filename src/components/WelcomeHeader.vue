@@ -1,13 +1,13 @@
 <template>
     <div>
       <div class="text-welcome green--text mb-12">
-        <v-scale-transition leave-absolute mode="in-out">
-          <span v-text="titleText + (dash ? '_' : '')"></span>
-        </v-scale-transition>
+          <span v-text="titleText" contenteditable></span>
+          <span v-if="dash">_</span>
+          <span v-else>&#12288;</span>
       </div>
       <div class="text-main">欢迎来到华东师范大学软件工程学院就读。</div>
+      <div class="text-main">接下来的几年里，你将从 C 语言开始，逐步探索计算机的世界，发现自己无限的创造力。有的课会很难，有的知识会很深，祝你一路顺风。</div>
       <v-divider></v-divider>
-
       <div class="my-3">
         <v-btn rounded outlined
                :key="item.link"
@@ -15,13 +15,12 @@
                dark color="green"
                v-for="item in referenceLists"
                @click="jump(item.link)"
-        ><v-icon class="mr-2">{{ item.icon || 'mdi-link'}}</v-icon>
+        ><v-icon size="20" class="mr-2">{{ item.icon || 'mdi-link'}}</v-icon>
           {{item.title}}
         </v-btn>
       </div>
       <v-divider></v-divider>
       <div class="text-main">这里有一些常常被新生问到的问题。无论你是新人还是老人，如果你刚好路过这里，都欢迎你在这里提问 / 回答。</div>
-
     </div>
 </template>
 
@@ -32,7 +31,7 @@
         data() {
             return {
                 titleText: "$ > ",
-                fullText: "Welcome to Software Engineering.",
+                fullText: "Hello, Software Engineering.",
                 dash: true,
                 referenceLists: [
                     {
@@ -44,18 +43,39 @@
                         link: "https://idc.ecnu.edu.cn"
                     },
                     {
-                        title: "EOJ 华师大在线评测系统",
-                        link: "https://acm.ecnu.edu.cn"
+                        title: "大夏学堂",
+                        link: "https://elearning.ecnu.edu.cn/"
                     },
                     {
-                        title: "HDUOJ 杭电在线评测系统",
-                        link: "http://acm.hdu.edu.cn/"
+                        title: "EOJ 在线评测系统",
+                        link: "https://acm.ecnu.edu.cn",
+                        icon: "mdi-laptop-mac"
                     },
                     {
-                        title: "课程表导出工具",
+                        title: "VisuAlgo 算法可视化",
+                        link: "https://visualgo.net/en",
+                        icon: "mdi-file-tree"
+                    },
+                    {
+                        title: "2020届软工新生群",
+                        link: "https://qm.qq.com/cgi-bin/qm/qr?k=u46UI6LoM1ui-SomySwwBR3de9X090dD",
+                        icon: "mdi-qqchat"
+                    },
+                    {
+                        title: "Telegram",
+                        link: "https://t.me/joinchat/QqRPzVEWLbVFChXCcOljjA",
+                        icon: "mdi-telegram"
+                    },
+                    {
+                        title: "课表导出在线工具",
                         link: "http://class2ics.billc.io",
                         icon: "mdi-calendar"
                     },
+                    {
+                        title: "课表导出捷径（iOS 专用）",
+                        link: "https://sharecuts.cn/shortcut/4812",
+                        icon: "mdi-calendar"
+                    }
                 ]
             }
         },

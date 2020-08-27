@@ -10,9 +10,9 @@
           <v-col sm="12" class="py-0">
             <v-list nav>
               <v-list-item-group mandatory color="green darken-1">
-                <v-tooltip right>
+                <v-tooltip bottom>
                   <template v-slot:activator="{ on: tooltip }">
-                    <v-dialog v-model="dialog" max-width="800px">
+                    <v-dialog v-model="dialog" max-width="800px" disabled>
                       <template v-slot:activator="{on: dialog}">
                         <v-list-item
                                 v-on="{...dialog, ...tooltip}"
