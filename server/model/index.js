@@ -7,8 +7,9 @@ const questionSchema = {
     content: String,
     timestamp: String,
     ip: String,
-    contact: String,
-    nickname: String
+    hide: {type: Number, default: 0},
+    contact: { type: String, default: ''},
+    nickname: { type: String, default: ''}
 };
 
 const answerSchema = {
@@ -17,8 +18,17 @@ const answerSchema = {
     content: String,
     timestamp: String,
     ip: String,
-    contact: String,
-    nickname: String
+    upvote: {
+        type: Number,
+        default: 0
+    },
+    downvote: {
+        type: Number,
+        default: 0
+    },
+    ecnuid: { type: String, default: '' },
+    contact: { type: String, default: '' },
+    nickname: { type: String, default: '' }
 };
 
 const Result = {

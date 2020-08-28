@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "date-fns": "^2.16.0",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-markdown": "^2.2.4",
@@ -21,13 +21,13 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.5.55",
-    "babel-runtime": "^6.26.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "babel-runtime": "^6.26.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.19.0",

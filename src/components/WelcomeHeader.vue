@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="text-welcome green--text mb-12">
-          <span v-text="titleText" contenteditable></span>
+          <span v-text="titleText" contenteditable style="outline: none"></span>
           <span v-if="dash">_</span>
           <span v-else>&#12288;</span>
       </div>
@@ -18,6 +18,31 @@
         ><v-icon size="20" class="mr-2">{{ item.icon || 'mdi-link'}}</v-icon>
           {{item.title}}
         </v-btn>
+        <v-dialog v-model="leaflet_dialog" max-width="400px">
+          <template v-slot:activator="{on}" >
+            <v-btn rounded outlined
+                   class="mr-3 my-2"
+                   dark color="green"
+                   v-on="on"
+            ><v-icon size="20" class="mr-2">mdi-book-open-variant</v-icon>
+              （过时的）华师大全攻略
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              仅供参考。
+            </v-card-title>
+            <v-card-text>
+              这份手册全名为「一起爱上华师大——华东师范大学学习生活全攻略」，由上古时代的华师大贴吧吧友编写于 2013 年 7 月，许多内容已经过时。确定下载？
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn outlined color="green" @click="leaflet_dialog=false">取消</v-btn>
+              <v-btn outlined color="green" @click="downloadLeaflet">确定</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
       </div>
       <v-divider></v-divider>
       <div class="text-main">这里有一些常常被新生问到的问题。无论你是新人还是老人，如果你刚好路过这里，都欢迎你在这里提问 / 回答。</div>
@@ -33,6 +58,7 @@
                 titleText: "$ > ",
                 fullText: "Hello, Software Engineering.",
                 dash: true,
+                leaflet_dialog: false,
                 referenceLists: [
                     {
                         title: "华东师范大学软件学院",
@@ -47,16 +73,6 @@
                         link: "https://elearning.ecnu.edu.cn/"
                     },
                     {
-                        title: "EOJ 在线评测系统",
-                        link: "https://acm.ecnu.edu.cn",
-                        icon: "mdi-laptop-mac"
-                    },
-                    {
-                        title: "VisuAlgo 算法可视化",
-                        link: "https://visualgo.net/en",
-                        icon: "mdi-file-tree"
-                    },
-                    {
                         title: "2020届软工新生群",
                         link: "https://qm.qq.com/cgi-bin/qm/qr?k=u46UI6LoM1ui-SomySwwBR3de9X090dD",
                         icon: "mdi-qqchat"
@@ -65,6 +81,21 @@
                         title: "Telegram",
                         link: "https://t.me/joinchat/QqRPzVEWLbVFChXCcOljjA",
                         icon: "mdi-telegram"
+                    },
+                    {
+                        title: "EOJ 在线评测系统",
+                        link: "https://acm.ecnu.edu.cn",
+                        icon: "mdi-laptop-mac"
+                    },
+                    {
+                        title: "HDU 航电 OJ",
+                        link: "https://acm.hdu.edu.cn",
+                        icon: "mdi-laptop-mac"
+                    },
+                    {
+                        title: "VisuAlgo 算法可视化",
+                        link: "https://visualgo.net/en",
+                        icon: "mdi-file-tree"
                     },
                     {
                         title: "课表导出在线工具",
@@ -102,6 +133,11 @@
                 else {
                     this.blink();
                 }
+            },
+
+            downloadLeaflet() {
+                window.open('leaflet.pdf');
+                this.leaflet_dialog = false;
             }
         },
 

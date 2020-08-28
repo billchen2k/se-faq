@@ -36,9 +36,24 @@ const answerController = {
         })
     },
     remove(req, res) {
-        Answer.findOne( { s_id: req.params.id}).remove((err, removed) => {
+        Answer.findOne( { _id: req.params.id}).remove((err, removed) => {
             res.json(Result.ok(removed));
         })
+    },
+    upvote(req, res) {
+        Answer.findOne( {_id: req.params.id}, (err, oldAnswer) => {
+            Answer.updateOne( {_id: req.params.id}, { upvote: (oldAnswer.upvote || 0) + 1}, (err, updated) => {
+                res.json(Result.ok(updated));
+            });
+        });
+    },
+    downvote(req, res) {
+        Answer.findOne( {_id: req.params.id}, (err, oldAnswer) => {
+            Answer.updateOne( {_id: req.params.id}, { downvote: (oldAnswer.downvote || 0) + 1 }, (err, updated) => {
+                res.json(Result.ok(updated));
+            });
+        });
+
     }
 }
 
