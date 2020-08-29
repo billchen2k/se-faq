@@ -4,7 +4,12 @@ services:
   db:
     image: mongo
     container_name: db
+    ports:
+      - 27017:27017
     restart: always
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
     environment:
       MONGO_INITDB_ROOT_USERNAME: auser
       MONGO_INITDB_ROOT_PASSWORD: apassword
@@ -20,3 +25,7 @@ services:
     restart: always
     ports:
       - 80:80
+
+volumes:
+  mongodb:
+  mongodb_config:

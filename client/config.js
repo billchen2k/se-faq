@@ -1,5 +1,7 @@
 let config = {
-  "api": process.env.API_BASE || "http://localhost:3001/api"
+  // "api": "http://localhost:3001/api"
+  "api": "/api"
+
 }
 
 export default config;

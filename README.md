@@ -18,7 +18,6 @@ n latest
 npm install yarn
 git clone https://github.com/BillChen2K/se-faq
 cd se-faq
-cd server && docker-compose run 
 cd client && yarn && yarn build && cd ..
 ```
 

@@ -7,7 +7,7 @@ RUN yarn install
 COPY . .
 
 ENV NODE_ENV=production
-ENV MONGO_URL=mongodb://db:27017/admin
+ENV MONGO_URI=mongodb://db:27017/admin
 ENV MONGO_USER=auser
 ENV MONGO_PASS=apassword
 ENV HOST=0.0.0.0

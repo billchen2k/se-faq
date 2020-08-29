@@ -29,13 +29,14 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
 // Database
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/se-faq', process.env.MONGO_URL ? {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/se-faq', process.env.MONGO_URI ? {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   user: process.env.MONGO_USER,
-  pass: process.env.MONGO_PASSWORD,
+  pass: process.env.MONGO_PASS,
 }: {});
 
+// mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@db:27017/admin`)
 app.listen(require('./config.json').SERVER_PORT, function () {
   console.info('LISTENING ON PORT ' + require('./config.json').SERVER_PORT + '.');
 });
