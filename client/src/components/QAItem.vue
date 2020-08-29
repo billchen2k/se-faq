@@ -126,7 +126,7 @@
 
     import VueMarkdown from 'vue-markdown'
     import axios from 'axios';
-    import config from '../../config.json';
+    import config from '../../config.js';
     import { format } from 'date-fns';
 
     export default {
@@ -171,7 +171,7 @@
         methods: {
             fetchAnswers() {
                 this.loading = true;
-                axios.get(config.api + "/api/answerOfQuestion/" + this.question._id)
+                axios.get(config.api + "/answerOfQuestion/" + this.question._id)
                     .then(response => {
                         if(response.data.success){
                             response.data.data.map(one => {
@@ -210,7 +210,7 @@
             },
 
             upvote(answer_id) {
-                axios.get(`${config.api}/api/upvoteAnswer/${answer_id}`)
+                axios.get(`${config.api}/upvoteAnswer/${answer_id}`)
                     .then(response => {
                         if (!localStorage.upvoted) {
                             localStorage.upvoted = JSON.stringify("[]");
@@ -226,7 +226,7 @@
             },
 
             downvote(answer_id) {
-                axios.get(`${config.api}/api/downvoteAnswer/${answer_id}`)
+                axios.get(`${config.api}/downvoteAnswer/${answer_id}`)
                     .then(response => {
                         if (!localStorage.downvoted) {
                             localStorage.downvoted = JSON.stringify("[]");
@@ -254,7 +254,7 @@
                 this.dialog = false;
                 this.loading = true;
 
-                axios.post(`${config.api}/api/answer`, {
+                axios.post(`${config.api}/answer`, {
                     content: this.new_answer,
                     question_id: this.question._id,
                     ecnuid: this.ecnuid

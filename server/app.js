@@ -29,7 +29,12 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
 // Database
-mongoose.connect('mongodb://localhost:27017/se-faq')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/se-faq', process.env.MONGO_URL ? {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  user: process.env.MONGO_USER,
+  pass: process.env.MONGO_PASSWORD,
+}: {});
 
 app.listen(require('./config.json').SERVER_PORT, function () {
   console.info('LISTENING ON PORT ' + require('./config.json').SERVER_PORT + '.');

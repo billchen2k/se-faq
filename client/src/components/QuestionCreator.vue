@@ -55,7 +55,7 @@
 
 <script>
     import VueMarkdown from 'vue-markdown';
-    import config from '../../config.json';
+    import config from '../../config.js';
     import axios from 'axios';
 
     export default {
@@ -95,7 +95,7 @@
                 }
                 this.dialog = false;
                 this.loading = true;
-                axios.post(`${config.api}/api/question`, {
+                axios.post(`${config.api}/question`, {
                     content: this.new_question
                 })
                 .then(response => {

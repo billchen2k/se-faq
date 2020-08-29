@@ -7,7 +7,7 @@
 
 <script>
 
-    import config from '../../config.json';
+    import config from '../../config.js';
     import axios from 'axios';
     import QAItem from "@/components/QAItem";
 
@@ -153,9 +153,9 @@
         methods: {
             importer() {
                 this.egquestions.forEach(one => {
-                    axios.post(config.api + '/api/question', {content: one[0]})
+                    axios.post(config.api + '/question', {content: one[0]})
                         .then(response => {
-                            axios.post(config.api + '/api/answer', {
+                            axios.post(config.api + '/answer', {
                                 content: one[1],
                                 question_id: response.data.data._id
                             })

@@ -36,7 +36,7 @@
     import SideNavigation from "@/components/SideNavigation";
     import QuestionCreator from "@/components/QuestionCreator";
     import axios from 'axios';
-    import config from "../config.json"
+    import config from "../config.js"
     import {format} from 'date-fns'
 
     export default {
@@ -61,7 +61,7 @@
 
         methods: {
             fetchData() {
-                axios.get(config.api + '/api/question')
+                axios.get(config.api + '/question')
                     .then(resQ => {
                         let q = resQ.data.data;
                         q = q.sort((a, b) => {
