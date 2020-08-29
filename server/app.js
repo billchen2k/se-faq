@@ -29,7 +29,7 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
 // Database
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/se-faq', process.env.MONGO_URL ? {
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/se-faq', process.env.MONGO_URL ? {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   user: process.env.MONGO_USER,

@@ -2,8 +2,8 @@ FROM nginx:1.13
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY config/nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/conf.d/
 
-COPY dist /var/www/se-faq
+COPY dist /www
 
-ENV API_BASE='/api'
+ENV API_BASE=/api
