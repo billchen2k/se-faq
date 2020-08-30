@@ -20,7 +20,8 @@
 
                     <v-card class="pa-6">
                         <v-textarea filled v-model="new_question" :rules="[rules.length]"
-                                    prepend-icon="mdi-comment-question-outline" color="green" clearable counter
+                                    style="font-family: 'Fira Code'"
+                                    prepend-icon="mdi-comment-question" color="green" clearable counter
                                     label="提出问题" placeholder=""
                         ></v-textarea>
                         <v-card-actions>

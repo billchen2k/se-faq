@@ -151,6 +151,7 @@
 
 <style scoped>
   .text-welcome{
+    font-family: Fira Code;
     font-size: 250%;
     font-weight: bold;
   }

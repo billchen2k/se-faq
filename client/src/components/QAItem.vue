@@ -18,10 +18,11 @@
                                                         v-on="{...dialog, ...tooltip}"
                                                 >
                                                     <v-list-item-avatar>
-                                                        <v-icon>mdi-comment-question-outline</v-icon>
+                                                        <v-icon>mdi-comment-question</v-icon>
+
                                                     </v-list-item-avatar>
                                                     <v-list-item-content>
-                                                        <strong><vue-markdown>{{question.content}}</vue-markdown>></strong>
+                                                        <strong><vue-markdown>{{question.content}}</vue-markdown></strong>
                                                         <v-list-item-subtitle align="right">{{question.timestamp}}
                                                         </v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -32,10 +33,11 @@
                                             <v-card class="pa-6">
                                                 <v-textarea filled v-model="new_answer" :rules="[rules.length]"
                                                             prepend-icon="mdi-lead-pencil" color="green" clearable
-                                                            counter
+                                                            counter style="font-family: 'Fira Code'"
                                                             label="添加回答" :placeholder="question.content"
                                                 ></v-textarea>
                                                 <v-text-field
+                                                        style="font-family: 'Fira Code'"
                                                         prepend-icon="mdi-id-card" clearable
                                                         :rules="[rules.ecnuid]" v-model="ecnuid"
                                                         label="ECNU 学号" placeholder="仅作身份验证，前端不展示" color="green">
@@ -71,18 +73,27 @@
                         </v-btn>
                     </v-col>
                 </v-row>
-                <v-row class="pr-5" v-for="answer in answers" :key="answer._id">
-                    <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')">
+                <v-row class="pr-5" v-for="(answer, index) in answers" :key="answer._id" >
+                    <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')" >
                         <v-list nav>
                             <v-list-item-group class="mb-1" multiple mandatory color="black">
                                 <v-list-item>
                                     <v-list-item-avatar>
-                                        <v-icon>mdi-lead-pencil</v-icon>
+                                        <v-row no-gutters>
+                                            <v-col sm="12" no-gutters>
+                                                <v-icon color="grey darken-2">mdi-lead-pencil</v-icon>
+                                            </v-col>
+                                            <v-col sm="12" no-gutters>
+                                                <div style="font-size: 75%; color: #555555">#{{index + 1}}</div>
+                                            </v-col>
+                                        </v-row>
+
+
                                     </v-list-item-avatar>
                                     <v-list-item-content>
 
                                         <vue-markdown>{{answer.content}}</vue-markdown>
-                                        <v-list-item-subtitle align="right">{{answer.ecnuid ? (answer.ecnuid.substring(2,4) + ' 级 || ' ) : ''}}{{answer.timestamp}}</v-list-item-subtitle>
+                                        <v-list-item-subtitle class="" align="right">{{answer.ecnuid ? (answer.ecnuid.substring(2,4) + ' 级 || ' ) : ''}}{{answer.timestamp}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
@@ -129,6 +140,7 @@
     import axios from 'axios';
     import config from '../../config.js';
     import { format } from 'date-fns';
+    import pangu from 'pangu';
 
     export default {
         name: "QAItem",
@@ -177,6 +189,7 @@
                         if(response.data.success){
                             response.data.data.map(one => {
                                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
+                                one.content = pangu.spacing(one.content);
                                 return one;
                             })
                             this.answers = response.data.data.filter(one => !one.hide);
