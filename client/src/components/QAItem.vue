@@ -179,7 +179,7 @@
                                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
                                 return one;
                             })
-                            this.answers = response.data.data;
+                            this.answers = response.data.data.filter(one => !one.hide);
                         }
                         else{
                             throw new Error(response.data.message);

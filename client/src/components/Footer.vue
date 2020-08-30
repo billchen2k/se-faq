@@ -7,7 +7,10 @@
         <div class="grey--text text-sm-body-2">This is NOT an official site.</div>
       </v-row>
       <v-row align="center" justify="center">
-          <a style="text-decoration: none" target="_blank" href="https://github.com/BillChen2K/se-faq"><v-icon small>mdi-github</v-icon></a>
+
+
+          <a style="text-decoration: none" target="_blank" href="https://github.com/BillChen2K/se-faq"><v-icon small>mdi-github</v-icon><span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>
+          <a style="text-decoration: none" target="_blank" href="maito:Bill.Chen@live.com"><v-icon small>mdi-email</v-icon><span class="grey--text text-sm-body-2 mx-2">Contact</span></a>
       </v-row>
     </div>
 </template>
