@@ -1,11 +1,11 @@
 <template>
     <v-card :loading="loading" class="my-2" :id="'Q' + question._id">
         <v-row>
-            <v-col sm="1">
+            <v-col md="1" v-if="$vuetify.breakpoint.mdAndUp">
                 <span class="pl-8 quote">“</span>
             </v-col>
 
-            <v-col sm="11">
+            <v-col sm="12" md="11">
                 <v-row class="pr-3">
                     <v-col sm="12" class="py-0">
                         <v-list nav>
@@ -63,14 +63,16 @@
 
 
                 <!-- ANSWERS -->
-                <v-row class="pr-8 pl-16" v-if="answers.length == 0">
-                    <v-btn color="green" block outlined @click="dialog = true">
-                        <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
-                        Be the first one to reply
-                    </v-btn>
+                <v-row v-if="answers.length == 0">
+                    <v-col :class="'pr-8 ' + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : 'pl-5')"  sm="12">
+                        <v-btn color="green" block outlined @click="dialog = true">
+                            <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
+                            Be the first one to reply
+                        </v-btn>
+                    </v-col>
                 </v-row>
                 <v-row class="pr-5" v-for="answer in answers" :key="answer._id">
-                    <v-col sm="10" class="py-0 pr-0 pl-16">
+                    <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')">
                         <v-list nav>
                             <v-list-item-group class="mb-1" multiple mandatory color="black">
                                 <v-list-item>
@@ -93,14 +95,14 @@
                                color="green lighten-2" block class="mb-2" small
                                v-on:click="upvote(answer._id)"
                         >
-                            <v-icon class="mr-2">mdi-arrow-up-thick</v-icon>
+                            <v-icon class="pr-2">mdi-arrow-up-thick</v-icon>
                             <span style="font-size: 120%">{{answer.upvote}}</span></v-btn>
                         <v-btn :disabled="ifUpvoted(answer._id) || ifDownvoted(answer._id)"
                                :outlined="!ifDownvoted(answer._id)"
                                color="green lighten-2" block small
                                v-on:click="downvote(answer._id)"
                         >
-                            <v-icon class="mr-2">mdi-arrow-down-thick</v-icon>
+                            <v-icon class="pr-2">mdi-arrow-down-thick</v-icon>
                             <span style="font-size: 120%">{{answer.downvote}}</span></v-btn>
                     </v-col>
 

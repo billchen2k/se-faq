@@ -13,6 +13,7 @@
                         <welcome-header></welcome-header>
                         <notice :key="item.content" v-for="item in notices" :content="item.content" :title="item.title"
                                 :icon="item.icon"></notice>
+                        <v-card class="mt-2" loading v-if="loading"><v-card-text>Loading...</v-card-text></v-card>
                         <q-a-item-list :questions="questions"></q-a-item-list>
                         <Footer id="foot"></Footer>
                     </v-col>
@@ -48,6 +49,7 @@
 
         data: () => ({
             drawer: true,
+            loading: true,
             notices: [
                 {
                     icon: "mdi-information-outline",
@@ -61,6 +63,7 @@
 
         methods: {
             fetchData() {
+                this.loading = true;
                 axios.get(config.api + '/question')
                     .then(resQ => {
                         let q = resQ.data.data;
@@ -75,6 +78,9 @@
 
                         this.questions = q;
                     })
+                .finally(() => {
+                    this.loading=false;
+                })
             },
 
             fillRecord() {
