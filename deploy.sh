@@ -1,3 +1,6 @@
+echo Building static files...
 cd client && yarn && yarn build && cd ..
+echo Composing dockers...
 docker-compose down
 docker-compose up --build -d
+echo All done.

@@ -89,7 +89,7 @@
                     },
                     {
                         title: "HDU 航电 OJ",
-                        link: "https://acm.hdu.edu.cn",
+                        link: "http://acm.hdu.edu.cn",
                         icon: "mdi-laptop-mac"
                     },
                     {
@@ -99,7 +99,7 @@
                     },
                     {
                         title: "课表导出在线工具",
-                        link: "http://class2ics.billc.io",
+                        link: "https://class2ics.billc.io",
                         icon: "mdi-calendar"
                     },
                     {
