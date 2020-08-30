@@ -41,6 +41,10 @@ const answerController = {
             res.json(Result.error(newAnswer, 'Content & Question ID is required.'));
             return;
         }
+        let text = newAnswer.ecnuid;
+        if (text.length != 11 || (text.substring(4,8) != '5101' && text.substring(4,8) != '5102') || text.substring(0,2) != '10') {
+            return '非法的学号。';
+        }
         newAnswer.timestamp = new Date().toISOString();
         newAnswer.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         newAnswer.save((err, saved) => {

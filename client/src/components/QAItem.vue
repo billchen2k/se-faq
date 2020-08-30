@@ -161,7 +161,7 @@
                         return true;
                     },
                     ecnuid: text => {
-                        if (text.length != 11 || text.substring(4,8) != '5101' || text.substring(0,2) != '10') {
+                        if (text.length != 11 || (text.substring(4,8) != '5101' && text.substring(4,8) != '5102') || text.substring(0,2) != '10') {
                             return '非法的学号'
                         }
                         return true;
