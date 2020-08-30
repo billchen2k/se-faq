@@ -63,7 +63,7 @@
 
 
                 <!-- ANSWERS -->
-                <v-row v-if="answers.length == 0">
+                <v-row v-if="answers.length == 0 && !loading">
                     <v-col :class="'pr-8 ' + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : 'pl-5')"  sm="12">
                         <v-btn color="green" block outlined @click="dialog = true">
                             <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
@@ -82,8 +82,7 @@
                                     <v-list-item-content>
 
                                         <vue-markdown>{{answer.content}}</vue-markdown>
-
-                                        <v-list-item-subtitle align="right">{{answer.timestamp}}</v-list-item-subtitle>
+                                        <v-list-item-subtitle align="right">{{answer.ecnuid ? (answer.ecnuid.substring(2,4) + ' 级 || ' ) : ''}}{{answer.timestamp}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
@@ -161,7 +160,7 @@
                         return true;
                     },
                     ecnuid: text => {
-                        if (text.length != 11 || (text.substring(4,8) != '5101' && text.substring(4,8) != '5102') || text.substring(0,2) != '10') {
+                        if (text.length != 11 || (text.substring(4,8) != '5101' && text.substring(4,8) != '5102') || (text.substring(0,3) != '101' && text.substring(0,3) != '102')) {
                             return '非法的学号'
                         }
                         return true;
