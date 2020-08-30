@@ -39,4 +39,6 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-
 docker-compose up --build
 ```
 
+Or simply `chmod +x deploy.sh && ./deploy.sh`.
+
 Any kinds of contribution is welcomed.

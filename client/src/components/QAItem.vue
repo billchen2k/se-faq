@@ -21,7 +21,7 @@
                                                         <v-icon>mdi-comment-question-outline</v-icon>
                                                     </v-list-item-avatar>
                                                     <v-list-item-content>
-                                                        <strong>{{question.content}}</strong>
+                                                        <strong><vue-markdown>{{question.content}}</vue-markdown>></strong>
                                                         <v-list-item-subtitle align="right">{{question.timestamp}}
                                                         </v-list-item-subtitle>
                                                     </v-list-item-content>
