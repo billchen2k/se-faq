@@ -1,4 +1,16 @@
-const { Answer, Result } = require('../model');
+const { Answer, Result, Record } = require('../model');
+const geoip = require('geoip-lite');
+
+function validateIP (ip) {
+    if(ip == '::1' || ip == '127.0.0.1'){
+        return true;
+    }
+    let data = geoip.lookup(ip);
+    if(!data) {
+        return true;
+    }
+    return data.country == 'CN';
+}
 
 const answerController = {
     all(req, res) {
@@ -7,7 +19,7 @@ const answerController = {
         })
     },
     getByQuestion(req,res) {
-        Answer.find({question_id: req.params.question_id}).exec((err, r) => {
+        Answer.find({question_id: req.params.question_id , downvote: {$lt: 15}}).exec((err, r) => {
             res.json(Result.ok(r));
         });
     },
@@ -42,6 +54,15 @@ const answerController = {
     },
     upvote(req, res) {
         Answer.findOne( {_id: req.params.id}, (err, oldAnswer) => {
+            let newRecord = new Record({
+                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+                operation: 'upvote',
+                answer_id: req.params.id
+            });
+            if(!validateIP(newRecord.get('ip'))) {
+                res.json(Result.error('', "IP address's not from China. Maybe turn off your proxy?"));
+            }
+            newRecord.save();
             Answer.updateOne( {_id: req.params.id}, { upvote: (oldAnswer.upvote || 0) + 1}, (err, updated) => {
                 res.json(Result.ok(updated));
             });
@@ -49,11 +70,19 @@ const answerController = {
     },
     downvote(req, res) {
         Answer.findOne( {_id: req.params.id}, (err, oldAnswer) => {
+            let newRecord = new Record({
+                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+                operation: 'downvote',
+                answer_id: req.params.id
+            });
+            if(!validateIP(newRecord.get('ip'))) {
+                res.json(Result.error('', "IP address's not from China. Maybe turn off your proxy?"));
+            }
+            newRecord.save();
             Answer.updateOne( {_id: req.params.id}, { downvote: (oldAnswer.downvote || 0) + 1 }, (err, updated) => {
                 res.json(Result.ok(updated));
             });
         });
-
     }
 }
 

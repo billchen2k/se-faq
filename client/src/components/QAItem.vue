@@ -222,7 +222,12 @@
                             this.popSnack('You 👍 this.');
                             this.fetchAnswers();
                         }
+
                     })
+                    .catch(e => {
+                    this.popSnack("Error: " + e.message);
+                    console.error(e);
+                    });
             },
 
             downvote(answer_id) {
@@ -239,6 +244,10 @@
                             this.fetchAnswers();
                         }
                     })
+                    .catch(e => {
+                        this.popSnack("Error: " + e.message);
+                        console.error(e);
+                    });
             },
 
             createAnswer() {

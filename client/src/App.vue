@@ -67,18 +67,39 @@
                         q = q.sort((a, b) => {
                             return a.timestamp < b.timestamp ? 1 : -1;
                         });
-                        q = q.filter(one => !one.hide).map(one => {
+                        q = q.filter(one => !one.hide);
+                        q = q.map(one => {
                             one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
                             return one;
                         })
 
                         this.questions = q;
                     })
+            },
+
+            fillRecord() {
+                axios.get(config.api + '/record')
+                .then(res => {
+                    let record = res.data.data;
+                    let localUpvotedAnswers = [], localDownvotedAnsers = [];
+                    record.forEach(one => {
+                        if (one.operation == 'upvote'){
+                            localUpvotedAnswers.push(one.answer_id);
+                        }
+                        else if(one.operation == 'downvote') {
+                            localDownvotedAnsers.push(one.answer_id);
+                        }
+                    })
+                    localStorage.upvoted = JSON.stringify(localUpvotedAnswers);
+                    localStorage.downvoted = JSON.stringify(localDownvotedAnsers);
+                    // console.log('Record logged');
+                });
             }
         },
 
         mounted() {
             document.title = "HELLOSE.";
+            this.fillRecord();
             this.fetchData();
         }
     };

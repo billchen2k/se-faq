@@ -31,6 +31,15 @@ const answerSchema = {
     nickname: { type: String, default: '' }
 };
 
+const recordSchema = {
+    id: ObjectId,
+    ip: String,
+    timestamp: {type: String, default: new Date().toISOString()},
+    answer_id: { type: String, default: 0},
+    question_id: { type: String, default: 0},
+    operation: String
+};
+
 const Result = {
     ok(data, message = "ok") {
         return {
@@ -52,5 +61,6 @@ const Result = {
 
 const Question = model('question', questionSchema);
 const Answer = model('answer', answerSchema);
+const Record = model('record', recordSchema);
 
-module.exports = { Question, Answer, Result };
+module.exports = { Question, Answer, Result, Record };

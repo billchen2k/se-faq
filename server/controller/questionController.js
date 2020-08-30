@@ -1,4 +1,5 @@
 const { Question, Result } = require('../model');
+const Utils = require('../util');
 
 const questionController = {
     all(req, res) {
@@ -18,8 +19,15 @@ const questionController = {
             res.json(Result.ok(updated));
         });
     },
-    create(req, res) {
+    async create(req, res) {
         let newQuestion = new Question(req.body);
+        // 5 question 1 day at most.
+        let asked = await Question.find( { ip: Utils.extractIP(req), timestamp: { $gte: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString()} } ).exec();
+        if(asked.length > 5){
+            console.log(asked);
+            res.json(Result.error('', '每天最多 5 个问题。'));
+            return;
+        }
         if(!newQuestion.content) {
             res.json(Result.error(newQuestion, "Content is required."));
             return;
