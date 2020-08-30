@@ -127,7 +127,7 @@
                     setTimeout(() => {
                         this.titleText += this.fullText[pos];
                         this.addWord(pos + 1);
-                        console.log('add');
+                        // console.log('add');
                     }, 100);
                 }
                 else {

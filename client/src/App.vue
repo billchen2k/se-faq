@@ -67,14 +67,11 @@
                         q = q.sort((a, b) => {
                             return a.timestamp < b.timestamp ? 1 : -1;
                         });
-                        q.map(one => {
-                            if (one.hide) {
-                                return {};
-                            }
+                        q = q.filter(one => !one.hide).map(one => {
                             one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
                             return one;
-
                         })
+
                         this.questions = q;
                     })
             }
