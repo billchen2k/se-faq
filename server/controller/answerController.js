@@ -60,7 +60,8 @@ const answerController = {
                 answer_id: req.params.id
             });
             if(!validateIP(newRecord.get('ip'))) {
-                res.json(Result.error('', "IP address's not from China. Maybe turn off your proxy?"));
+                res.json(Result.error('', `Your IP (${newRecord.get('ip')}) is not from China. Maybe turn off your proxy?`));
+                return;
             }
             newRecord.save();
             Answer.updateOne( {_id: req.params.id}, { upvote: (oldAnswer.upvote || 0) + 1}, (err, updated) => {
@@ -76,7 +77,8 @@ const answerController = {
                 answer_id: req.params.id
             });
             if(!validateIP(newRecord.get('ip'))) {
-                res.json(Result.error('', "IP address's not from China. Maybe turn off your proxy?"));
+                res.json(Result.error('', `Your IP (${newRecord.get('ip')}) is not from China. Maybe turn off your proxy?`));
+                return;
             }
             newRecord.save();
             Answer.updateOne( {_id: req.params.id}, { downvote: (oldAnswer.downvote || 0) + 1 }, (err, updated) => {

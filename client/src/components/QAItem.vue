@@ -212,15 +212,18 @@
             upvote(answer_id) {
                 axios.get(`${config.api}/upvoteAnswer/${answer_id}`)
                     .then(response => {
-                        if (!localStorage.upvoted) {
-                            localStorage.upvoted = JSON.stringify("[]");
-                        }
+                        // if (!localStorage.upvoted) {
+                        //     localStorage.upvoted = JSON.stringify("[]");
+                        // }
                         if (response.data.success) {
                             let upvoted = Array.from(JSON.parse(localStorage.upvoted));
                             upvoted.push(answer_id);
                             localStorage.upvoted = JSON.stringify(upvoted);
                             this.popSnack('You 👍 this.');
                             this.fetchAnswers();
+                        }
+                        else{
+                            throw new Error(response.data.message);
                         }
 
                     })
@@ -233,15 +236,18 @@
             downvote(answer_id) {
                 axios.get(`${config.api}/downvoteAnswer/${answer_id}`)
                     .then(response => {
-                        if (!localStorage.downvoted) {
-                            localStorage.downvoted = JSON.stringify("[]");
-                        }
+                        // if (!localStorage.downvoted) {
+                        //     localStorage.downvoted = JSON.stringify("[]");
+                        // }
                         if (response.data.success) {
                             let downvoted = Array.from(JSON.parse(localStorage.downvoted));
                             downvoted.push(answer_id);
                             localStorage.downvoted = JSON.stringify(downvoted);
                             this.popSnack('You 👎 this.');
                             this.fetchAnswers();
+                        }
+                        else{
+                            throw new Error(response.data.message);
                         }
                     })
                     .catch(e => {
