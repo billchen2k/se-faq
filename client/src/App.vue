@@ -15,7 +15,7 @@
                                 :icon="item.icon"></notice>
                         <v-card class="mt-2" loading v-if="loading"><v-card-text>Loading...</v-card-text></v-card>
                         <q-a-item-list :questions="questions"></q-a-item-list>
-                        <Footer id="foot"></Footer>
+                        <Footer></Footer>
                     </v-col>
                 </v-row>
 

@@ -6,6 +6,8 @@
             </v-col>
 
             <v-col sm="12" md="11">
+
+                <!-- QUESTION -->
                 <v-row class="pr-3">
                     <v-col sm="12" class="py-0">
                         <v-list nav>
@@ -16,6 +18,7 @@
                                             <template v-slot:activator="{on: dialog}">
                                                 <v-list-item
                                                         v-on="{...dialog, ...tooltip}"
+                                                        @click="new_answer = ''"
                                                 >
                                                     <v-list-item-avatar>
                                                         <v-icon>mdi-comment-question</v-icon>
@@ -44,7 +47,8 @@
                                                 </v-text-field>
                                                 <v-card-actions>
                                                     <v-row>
-                                                        <span class="text-body-2">预览：</span>
+<!--                                                        <span class="text-body-2">预览：</span>-->
+                                                        <v-icon class="mr-2 pl-1">mdi-language-markdown</v-icon>
                                                         <div style="max-width: 75%;">
                                                             <vue-markdown :source="new_answer"></vue-markdown>
                                                         </div>

@@ -26,7 +26,7 @@
                         ></v-textarea>
                         <v-card-actions>
                             <v-row>
-                                <span class="text-body-2">预览：</span>
+                                <v-icon class="mr-2 pl-1">mdi-language-markdown</v-icon>
                                 <div style="max-width: 75%;">
                                     <vue-markdown :source="new_question"></vue-markdown>
                                 </div>
