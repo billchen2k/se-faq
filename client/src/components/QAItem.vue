@@ -9,7 +9,7 @@
                 <v-row class="pr-3">
                     <v-col sm="12" class="py-0">
                         <v-list nav>
-                            <v-list-item-group mandatory color="green darken-1">
+                            <v-list-item-group mandatory :color="mainColor + ' darken-1'">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on: tooltip }">
                                         <v-dialog v-model="dialog" max-width="800px">
@@ -31,14 +31,14 @@
 
                                             <v-card class="pa-6">
                                                 <v-textarea filled v-model="new_answer" :rules="[rules.length]"
-                                                            prepend-icon="mdi-lead-pencil" color="green" clearable
+                                                            prepend-icon="mdi-lead-pencil" :color="mainColor" clearable
                                                             counter
                                                             label="添加回答" :placeholder="question.content"
                                                 ></v-textarea>
                                                 <v-text-field
                                                         prepend-icon="mdi-id-card" clearable
                                                         :rules="[rules.ecnuid]" v-model="ecnuid"
-                                                        label="ECNU 学号" placeholder="仅作身份验证，前端不展示" color="green">
+                                                        label="ECNU 学号" placeholder="仅作身份验证，前端不展示" :color="mainColor">
                                                 </v-text-field>
                                                 <v-card-actions>
                                                     <v-row>
@@ -47,7 +47,7 @@
                                                             <vue-markdown :source="new_answer"></vue-markdown>
                                                         </div>
                                                         <v-spacer></v-spacer>
-                                                        <v-btn @click="createAnswer" color="green" outlined>reply!</v-btn>
+                                                        <v-btn @click="createAnswer" :color="mainColor" outlined>回复</v-btn>
                                                     </v-row>
                                                 </v-card-actions>
                                             </v-card>
@@ -65,7 +65,7 @@
                 <!-- ANSWERS -->
                 <v-row v-if="answers.length == 0 && !loading">
                     <v-col :class="'pr-8 ' + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : 'pl-5')"  sm="12">
-                        <v-btn color="green" block outlined @click="dialog = true">
+                        <v-btn :color="mainColor" block outlined @click="dialog = true">
                             <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
                             Be the first one to reply
                         </v-btn>
@@ -91,14 +91,14 @@
                     <v-col sm="2" class="py-2 pl-1">
                         <v-btn :disabled="ifUpvoted(answer._id) || ifDownvoted(answer._id)"
                                :outlined="!ifUpvoted(answer._id)"
-                               color="green lighten-2" block class="mb-2" small
+                               :color="mainColor + ' lighten-2'" block class="mb-2" small
                                v-on:click="upvote(answer._id)"
                         >
                             <v-icon class="pr-2">mdi-arrow-up-thick</v-icon>
                             <span style="font-size: 120%">{{answer.upvote}}</span></v-btn>
                         <v-btn :disabled="ifUpvoted(answer._id) || ifDownvoted(answer._id)"
                                :outlined="!ifDownvoted(answer._id)"
-                               color="green lighten-2" block small
+                               :color="mainColor + ' lighten-2'" block small
                                v-on:click="downvote(answer._id)"
                         >
                             <v-icon class="pr-2">mdi-arrow-down-thick</v-icon>
@@ -115,8 +115,8 @@
         <v-snackbar v-model="snackbar" :timeout="3000">
             {{ snackbar_text }}
             <template v-slot:action="{ attrs }">
-                <v-btn color="green" text v-bind="attrs" @click="snackbar = false">
-                    CLOSE
+                <v-btn :color="mainColor" text v-bind="attrs" @click="snackbar = false">
+                    关闭
                 </v-btn>
             </template>
         </v-snackbar>
@@ -129,6 +129,7 @@
     import axios from 'axios';
     import config from '../../config.js';
     import { format } from 'date-fns';
+    import {mainColor} from "../../static/constants";
 
     export default {
         name: "QAItem",
@@ -141,6 +142,7 @@
 
         data() {
             return {
+              mainColor,
                 new_answer: '',
                 loading: true,
                 answers: [],

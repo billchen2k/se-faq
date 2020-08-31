@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: mongo
+    container_name: db
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: auser
+      MONGO_INITDB_ROOT_PASSWORD: apassword
+  api:
+    build: server
+    container_name: api
+    depends_on:
+      - "db"
+    restart: always
+  nginx:
+    build: client
+    container_name: nginx
+    restart: always
+    ports:
+      - 80:80
+
+volumes:
+  mongodb:
+  mongodb_config:

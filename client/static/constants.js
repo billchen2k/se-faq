@@ -1,0 +1,5 @@
+export const mainColor = '#203880'
+export const schoolName = '计算机科学与技术'
+export const schoolNameAbbr = '计科'
+export const schoolWeb = 'http://www.cs.ecnu.edu.cn/'
+export const schoolQQ = ''

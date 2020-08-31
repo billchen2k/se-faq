@@ -12,7 +12,7 @@
                                 right
                                 bottom
                                 v-on="{...dialog, ...tooltip}"
-                                color="green"
+                                :color="mainColor"
                         >
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
@@ -20,7 +20,7 @@
 
                     <v-card class="pa-6">
                         <v-textarea filled v-model="new_question" :rules="[rules.length]"
-                                    prepend-icon="mdi-comment-question-outline" color="green" clearable counter
+                                    prepend-icon="mdi-comment-question-outline" :color="mainColor" clearable counter
                                     label="提出问题" placeholder=""
                         ></v-textarea>
                         <v-card-actions>
@@ -30,8 +30,8 @@
                                     <vue-markdown :source="new_question"></vue-markdown>
                                 </div>
                                 <v-spacer></v-spacer>
-                                <!--                            <v-text-field label="联系方式（可选）" color="green"></v-text-field>-->
-                                <v-btn color="green" @click="createQuestion" outlined>ask!</v-btn>
+                                <!--                            <v-text-field label="联系方式（可选）" :color="mainColor"></v-text-field>-->
+                                <v-btn :color="mainColor" @click="createQuestion" outlined>提问</v-btn>
                             </v-row>
                         </v-card-actions>
                     </v-card>
@@ -44,8 +44,8 @@
         <v-snackbar v-model="snackbar" :timeout="3000">
             {{ snackbar_text }}
             <template v-slot:action="{ attrs }">
-                <v-btn color="green" text v-bind="attrs" @click="snackbar = false">
-                    CLOSE
+                <v-btn :color="mainColor" text v-bind="attrs" @click="snackbar = false">
+                    关闭
                 </v-btn>
             </template>
         </v-snackbar>
@@ -57,12 +57,14 @@
     import VueMarkdown from 'vue-markdown';
     import config from '../../config.js';
     import axios from 'axios';
+    import {mainColor} from "../../static/constants";
 
     export default {
         components: {VueMarkdown},
         name: "QuestionCreator",
         data() {
             return {
+                mainColor,
                 new_question: '',
                 loading: false,
                 snackbar: false,

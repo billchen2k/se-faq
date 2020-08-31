@@ -54,7 +54,7 @@
                 {
                     icon: "mdi-information-outline",
                     title: "一个提示",
-                    content: "所有问题 / 答案发表后便无法再次编辑，除非被踩的次数过多被自动隐藏。畅所欲言之时，也请稍加谨慎。\n" +
+                    content: "所有问题/答案发表后便无法再次编辑，除非被踩的次数过多被自动隐藏。畅所欲言之时，也请稍加谨慎。\n" +
                         "使用右下角的加号来提出问题，点击问题即可添加回复。回复和提问均支持 <a target='_blank' href='https://guides.github.com/features/mastering-markdown/'>Markdown</a> 语法。"
                 }
             ],
@@ -104,7 +104,7 @@
         },
 
         mounted() {
-            document.title = "HELLOSE.";
+            document.title = "Hello CS - ECNU";
             this.fillRecord();
             this.fetchData();
         }

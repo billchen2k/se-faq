@@ -30,7 +30,7 @@ const answerSchema = {
     contact: { type: String, default: '' },
     nickname: { type: String, default: '' },
     hide: {type: Number, default: 0},
-
+    endorsed: {type: Number, default: 0},
 };
 
 const recordSchema = {
