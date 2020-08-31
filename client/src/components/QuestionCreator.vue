@@ -20,7 +20,7 @@
 
                     <v-card class="pa-6">
                         <v-textarea filled v-model="new_question" :rules="[rules.length]"
-                                    style="font-family: 'Fira Code'"
+                                    style="font-family: 'Fira Code'" autofocus
                                     prepend-icon="mdi-comment-question" color="green" clearable counter
                                     label="提出问题" placeholder=""
                         ></v-textarea>

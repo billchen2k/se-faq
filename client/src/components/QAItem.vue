@@ -31,10 +31,10 @@
 
 
                                             <v-card class="pa-6">
-                                                <v-textarea filled v-model="new_answer" :rules="[rules.length]"
+                                                <v-textarea filled v-model="new_answer" :rules="[rules.length]" autofocus
                                                             prepend-icon="mdi-lead-pencil" color="green" clearable
                                                             counter style="font-family: 'Fira Code'"
-                                                            label="添加回答" :placeholder="question.content"
+                                                            :label="new_answer.includes('Re:') ? '回复回答' : '添加回答'" :placeholder="question.content" ref="answerField"
                                                 ></v-textarea>
                                                 <v-text-field
                                                         style="font-family: 'Fira Code'"
@@ -73,22 +73,20 @@
                         </v-btn>
                     </v-col>
                 </v-row>
-                <v-row class="pr-5" v-for="(answer, index) in answers" :key="answer._id" >
+                <v-row class="pr-5" v-for="answer in answers" :key="answer._id" >
                     <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')" >
                         <v-list nav>
                             <v-list-item-group class="mb-1" multiple mandatory color="black">
-                                <v-list-item>
+                                <v-list-item @click="prepareReply(answer.index, answer.content)">
                                     <v-list-item-avatar>
                                         <v-row no-gutters>
                                             <v-col sm="12" no-gutters>
                                                 <v-icon color="grey darken-2">mdi-lead-pencil</v-icon>
                                             </v-col>
                                             <v-col sm="12" no-gutters>
-                                                <div style="font-size: 75%; color: #555555">#{{index + 1}}</div>
+                                                <div style="font-size: 75%; color: #555555">#{{answer.index}}</div>
                                             </v-col>
                                         </v-row>
-
-
                                     </v-list-item-avatar>
                                     <v-list-item-content>
 
@@ -187,8 +185,9 @@
                 axios.get(config.api + "/answerOfQuestion/" + this.question._id)
                     .then(response => {
                         if(response.data.success){
-                            response.data.data.map(one => {
+                            response.data.data.map((one, index) => {
                                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
+                                one.index = index;
                                 one.content = pangu.spacing(one.content);
                                 return one;
                             })
@@ -303,6 +302,11 @@
                 .finally(() => {
                   this.loading = false;
                 })
+            },
+
+            prepareReply(index, content) {
+                this.dialog = true;
+                this.new_answer = `> Re:#${index} ${content.replace('\n\n', '\n')} \n\n`;
             }
         },
 
