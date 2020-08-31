@@ -27,12 +27,16 @@
                         <v-card-actions>
                             <v-row>
                                 <v-icon class="mr-2 pl-1">mdi-language-markdown</v-icon>
-                                <div style="max-width: 75%;">
-                                    <vue-markdown :source="new_question"></vue-markdown>
-                                </div>
-                                <v-spacer></v-spacer>
+                                <v-col  md="10" sm="6" class="pa-0 pr-4">
+                                    <v-slide-y-transition leave-absolute>
+                                        <v-card :key="new_question.length>0" v-if="new_question.length>0" outlined class="pa-2">
+                                            <vue-markdown :source="new_question"></vue-markdown>
+                                        </v-card>
+                                        <div v-else class="grey--text text-body-2 pl-1 pt-2">预览</div>
+                                    </v-slide-y-transition>
+                                </v-col>
+                                <v-btn color="green" align="right" @click="createQuestion" outlined>ask!</v-btn>
                                 <!--                            <v-text-field label="联系方式（可选）" color="green"></v-text-field>-->
-                                <v-btn color="green" @click="createQuestion" outlined>ask!</v-btn>
                             </v-row>
                         </v-card-actions>
                     </v-card>

@@ -47,13 +47,16 @@
                                                 </v-text-field>
                                                 <v-card-actions>
                                                     <v-row>
-<!--                                                        <span class="text-body-2">预览：</span>-->
                                                         <v-icon class="mr-2 pl-1">mdi-language-markdown</v-icon>
-                                                        <div style="max-width: 75%;">
-                                                            <vue-markdown :source="new_answer"></vue-markdown>
-                                                        </div>
-                                                        <v-spacer></v-spacer>
-                                                        <v-btn @click="createAnswer" color="green" outlined>reply!</v-btn>
+                                                        <v-col  md="10" sm="6" class="pa-0 pr-4">
+                                                            <v-slide-y-transition leave-absolute>
+                                                                <v-card :key="new_answer.length>0" v-if="new_answer.length>0" outlined class="pa-2">
+                                                                    <vue-markdown :source="new_answer"></vue-markdown>
+                                                                </v-card>
+                                                                <div v-else class="grey--text text-body-2 pl-1 pt-2">预览</div>
+                                                            </v-slide-y-transition>
+                                                        </v-col>
+                                                        <v-btn align="right" @click="createAnswer" color="green" outlined>reply!</v-btn>
                                                     </v-row>
                                                 </v-card-actions>
                                             </v-card>
