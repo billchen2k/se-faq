@@ -108,7 +108,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "Hello ECNU";
+    document.title = "Hello, SE.";
     this.reloadData();
   }
 };

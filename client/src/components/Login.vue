@@ -44,9 +44,10 @@ export default {
       this.getUserDetails();
       // Same, emit the event
       this.$emit('loginStatusChanged');
+      location.reload();
     }
   },
-  created() {
+  mounted() {
     this.user = this.getUserDetails();
   }
 };
