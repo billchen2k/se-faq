@@ -23,7 +23,13 @@ cd client && yarn && yarn build && cd ..
 
 Remember to change the contents in `client/static/constants` before `build`.
 
-Copy `client/Dockerfile.sample` as `client/Dockerfile`; Copy `server/Dockerfile.sample` as `server/Dockerfile`; Copy `docker-compose.yml.sample` as `docker-compose.yml`;
+Copy `client/Dockerfile.sample` as `client/Dockerfile`; Copy `server/Dockerfile.sample` as `server/Dockerfile`; Copy `docker-compose.yml.sample` as `docker-compose.yml`:
+
+```bash
+cp client/Dockerfile.sample client/Dockerfile
+cp server/Dockerfile.sample server/Dockerfile
+cp docker-compose.yml.sample docker-compose.yml
+```
 
 Then set password for mongodb. Change `server/Dockerfile`:
 ```
