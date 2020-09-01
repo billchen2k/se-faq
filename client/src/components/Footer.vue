@@ -16,7 +16,7 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-      <a v-if="$route.query.admin != undefined" style="text-decoration: none" class="grey--text text-sm-body-2" @click="showLogin = !showLogin;"><v-icon small>mdi-hammer-wrench</v-icon><span class="grey--text text-sm-body-2 mx-2">Manage</span></a>
+      <a v-if="$route.query.admin != undefined || this.user" style="text-decoration: none" class="grey--text text-sm-body-2" @click="showLogin = !showLogin;"><v-icon small>mdi-hammer-wrench</v-icon><span class="grey--text text-sm-body-2 mx-2">Manage</span></a>
       <a style="text-decoration: none" target="_blank" href="https://github.com/BillChen2K/se-faq"><v-icon small>mdi-github</v-icon><span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>
       <a style="text-decoration: none" target="_blank" href="maito:Bill.Chen@live.com"><v-icon small>mdi-email</v-icon><span class="grey--text text-sm-body-2 mx-2">Contact</span></a>
 
@@ -27,6 +27,7 @@
 <script>
 import {mainColor} from "../../static/constants";
 import Login from "@/components/Login";
+import {getUserDetails} from "@/plugins/auth";
 
 export default {
   name: "Footer",
@@ -36,6 +37,8 @@ export default {
   data() {
     return {
       mainColor,
+      getUserDetails,
+      user: null,
       showLogin: false,
     }
   },
@@ -44,6 +47,10 @@ export default {
       this.showLogin = false;
       this.$emit("loginStatusChanged");
     }
+  },
+
+  created() {
+    this.user = this.getUserDetails();
   }
 }
 </script>
