@@ -2,10 +2,6 @@
 
 A guide and simple QA platform for Software Engineering / Computer Science freshmen in East China Normal University.
 
-> The SE-FAQ is powered and maintained by BillC at BillChen2k/se-faq
->
-> The CS version is forked and maintained by jxtxzzw at jxtxzzw/se-faq
-
 ## Techstack:
 
 - client: vue, vuetify, axios
@@ -43,6 +39,8 @@ MONGO_INITDB_ROOT_PASSWORD: youruser
 ```
 
 If you need front-end moderation, change the `FAQ_AUTH` value in `server/Dockerfile`, this will be the password of your front-end moderation.
+
+To access admin panel, you should add `admin=1` after your URL, such as `http://localhost?admin=1`.
 
 You can change anything else as you like in these files. For example, the volumes mapping, the ports, etc.
 
