@@ -1,81 +1,53 @@
 <template>
   <div>
     <div v-if="user">
-      <v-btn
-          color="error"
-          class="mr-4"
-          @click="authLogout"
-      >
+      <v-btn color="error" class="mr-4" @click="logout">
         注销
       </v-btn>
     </div>
     <div v-else>
-      <v-form
-          ref="form"
-          lazy-validation
-      >
-        <v-text-field
-            v-model="password"
-            label="Password"
-            required
-        ></v-text-field>
-
-        <v-btn
-            color="success"
-            class="mr-4"
-            @click="authLogin"
-        >
+        <v-text-field v-model="password" label="密码" required/>
+        <v-btn color="success" class="mr-4" @click="login">
           验证
         </v-btn>
-      </v-form>
     </div>
   </div>
 </template>
+
 <script>
-import config from "../../config";
-import VueJwtDecode from "vue-jwt-decode";
-import axios from "axios";
+import { authLogin, getUserDetails } from "@/plugins/auth";
 
 export default {
   name: "Login",
   data() {
     return {
+      authLogin,
+      getUserDetails,
       password: "",
-      user: null,
+      user: null
     };
   },
   methods: {
-    async authLogin() {
-      try {
-        let response = await axios.post(`${config.api}/login`, {
-          password: this.password
-        })
-        let token = response.data.token;
-        localStorage.setItem("jwt", token);
-        if (token) {
-          this.getUserDetails();
-          this.$emit('loginStatusChanged');
-        }
-      } catch (err) {
-        console.log(err.response);
+    async login () {
+      const success = await this.authLogin(this.password);
+      if (success) {
+        this.user = this.getUserDetails();
+        // Emit this event, to notify the high level components to re-generate the view (if necessary)
+        this.$emit('loginStatusChanged');
+      } else {
+        console.log('密码错误');
       }
     },
-    async authLogout() {
+    async logout () {
+      // Logout, clear the local storage, and clear the user data
       localStorage.removeItem("jwt");
       this.getUserDetails();
+      // Same, emit the event
       this.$emit('loginStatusChanged');
-    },
-    getUserDetails() {
-      let token = localStorage.getItem("jwt");
-      if (token) {
-        this.user = VueJwtDecode.decode(token);
-      } else {
-        this.user = null;
-      }
-    },
+    }
   },
   created() {
-    this.getUserDetails();
+    this.user = this.getUserDetails();
   }
 };
 </script>

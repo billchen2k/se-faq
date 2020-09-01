@@ -1,11 +1,12 @@
-const { Auth } = require('../model');
+const {Auth} = require('../model');
 const bcrypt = require("bcrypt");
 
 const authController = {
-    async login (req, res) {
+    async login(req, res) {
         try {
             const password = req.body.password;
             const auths = await Auth.find({});
+            // If there is no admin, initialize one token using the ENV.
             if (auths.length === 0) {
                 console.log("No auth record found.");
                 console.log("Initialize onw with process.env.FAQ_AUTH");
@@ -21,16 +22,16 @@ const authController = {
                 const auth = auths[0];
                 const isPasswordMatch = await bcrypt.compare(password, auth.password);
                 if (!isPasswordMatch) {
-                    res.status(400).json({ err: "Invalid login credential." });
+                    res.status(400).json({err: "Invalid login credential."});
                 } else {
                     const token = await auth.generateAuthToken();
-                    res.status(201).json({ token });
+                    res.status(201).json({token});
                 }
             } else {
-                res.status(400).json({ err: "More than one credential stored. Something wrong." });
+                res.status(400).json({err: "More than one credential stored. Something wrong."});
             }
         } catch (err) {
-            res.status(400).json({ err: err });
+            res.status(400).json({err: err});
         }
     }
 }

@@ -1,5 +1,1 @@
-**/node_modules/
-**/dist/
-**/docker-compose.yml
-**/Dockerfile
-.idea/
+docker-compose.yml

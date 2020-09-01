@@ -54,7 +54,6 @@
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
-
                   </template>
                   <span>点击问题以添加答案</span>
                 </v-tooltip>
@@ -63,9 +62,8 @@
           </v-col>
         </v-row>
 
-
         <!-- ANSWERS -->
-        <v-row v-if="answers.length == 0 && !loading">
+        <v-row v-if="answers.length === 0 && !loading">
           <v-col :class="'pr-8 ' + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : 'pl-5')" sm="12">
             <v-btn :color="mainColor" block outlined @click="dialog = true">
               <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
@@ -111,17 +109,14 @@
             >
               <v-icon class="pr-2">mdi-arrow-down-thick</v-icon>
               <span style="font-size: 120%">{{ answer.downvote }}</span></v-btn>
+            <!-- Only show the operations when admin is logged in. A back-end verification is still needed. -->
             <div v-if="user">
               <v-switch v-model="answer.endorsed" label="认可" v-on:change="changeEndorsed(answer._id)"/>
               <v-switch v-model="answer.hide" label="隐藏" v-on:change="changeHidden(answer._id)"></v-switch>
             </div>
           </v-col>
-
         </v-row>
-
-
       </v-col>
-
     </v-row>
 
     <v-snackbar v-model="snackbar" :timeout="3000">
@@ -142,7 +137,7 @@ import axios from 'axios';
 import config from '../../config.js';
 import {format} from 'date-fns';
 import {mainColor} from "../../static/constants";
-import VueJwtDecode from "vue-jwt-decode";
+import { getUserDetails } from "@/plugins/auth";
 
 export default {
   name: "QAItem",
@@ -155,6 +150,7 @@ export default {
 
   data() {
     return {
+      getUserDetails,
       mainColor,
       user: null,
       new_answer: '',
@@ -176,7 +172,7 @@ export default {
           return true;
         },
         ecnuid: text => {
-          if (text.length != 11 || (text.substring(4, 8) != '5101' && text.substring(4, 8) != '5102') || (text.substring(0, 3) != '101' && text.substring(0, 3) != '102')) {
+          if (text.length !== 11 || (text.substring(4, 8) !== '5101' && text.substring(4, 8) !== '5102') || (text.substring(0, 3) !== '101' && text.substring(0, 3) !== '102')) {
             return '非法的学号'
           }
           return true;
@@ -195,7 +191,7 @@ export default {
                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
                 return one;
               })
-                this.answers = response.data.data.filter((one) =>  (!one.hide || this.user));
+              this.answers = response.data.data.filter((one) => (!one.hide || this.user));
             } else {
               throw new Error(response.data.message);
             }
@@ -228,9 +224,6 @@ export default {
     upvote(answer_id) {
       axios.get(`${config.api}/upvoteAnswer/${answer_id}`)
           .then(response => {
-            // if (!localStorage.upvoted) {
-            //     localStorage.upvoted = JSON.stringify("[]");
-            // }
             if (response.data.success) {
               let upvoted = Array.from(JSON.parse(localStorage.upvoted));
               upvoted.push(answer_id);
@@ -251,9 +244,6 @@ export default {
     downvote(answer_id) {
       axios.get(`${config.api}/downvoteAnswer/${answer_id}`)
           .then(response => {
-            // if (!localStorage.downvoted) {
-            //     localStorage.downvoted = JSON.stringify("[]");
-            // }
             if (response.data.success) {
               let downvoted = Array.from(JSON.parse(localStorage.downvoted));
               downvoted.push(answer_id);
@@ -270,14 +260,16 @@ export default {
           });
     },
 
-    changeEndorsed (answer_id) {
-      console.log(answer_id);
+    // We only need the answer_id, and we do endorsed = !endorsed to flip the value
+    changeEndorsed(answer_id) {
+      // Add a header, use Bearer token
       axios.get(`${config.api}/changeEndorsed/${answer_id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("jwt")}`
         }
       })
           .then(response => {
+            // Changed successfully
             if (response.data.success) {
               this.popSnack('已更改认可状态');
               this.fetchAnswers();
@@ -291,8 +283,9 @@ export default {
           });
     },
 
-    changeHidden (answer_id) {
-      console.log(answer_id);
+    // Same, we do not need the original value, we flip the value, using hide = !hide
+    changeHidden(answer_id) {
+      // Authorization uses Bearer token (for JWT)
       axios.get(`${config.api}/changeHidden/${answer_id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("jwt")}`
@@ -318,7 +311,7 @@ export default {
         return;
       }
       console.log(this.rules.ecnuid(this.ecnuid));
-      if (this.rules.ecnuid(this.ecnuid) != true) {
+      if (this.rules.ecnuid(this.ecnuid) !== true) {
         this.popSnack("学号不太对劲。")
         return;
       }
@@ -344,21 +337,13 @@ export default {
           .finally(() => {
             this.loading = false;
           })
-    },
-    getUserDetails() {
-      let token = localStorage.getItem("jwt");
-      if (token) {
-        this.user = VueJwtDecode.decode(token);
-      } else {
-        this.user = null;
-      }
-    },
+    }
   },
   mounted() {
     this.fetchAnswers();
   },
   created() {
-    this.getUserDetails();
+    this.user = this.getUserDetails();
   }
 }
 </script>

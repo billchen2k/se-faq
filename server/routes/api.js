@@ -30,8 +30,10 @@ router.get('/record/upvote', recordController.getUpvoted);
 router.get('/record/downvote', recordController.getDownvoted);
 router.get('/record', recordController.getAll);
 
+// auth
 router.post('/login', authController.login);
 
+// front-end moderation: Remember to use auth as a middle-ware
 router.get('/changeEndorsed/:id', auth, answerController.endorse);
 router.get('/changeHidden/:id', auth, answerController.hide);
 

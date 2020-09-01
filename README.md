@@ -1,8 +1,6 @@
 > Forked from BillChen2K/se-faq.
 >
-> Modified static contents as CS-FAQ now.
->
-> Additional features will be merged back to the original repository.
+> Additional features might be merged back to the original repository.
 >
 
 # se-faq
@@ -28,9 +26,9 @@ cd se-faq
 cd client && yarn && yarn build && cd ..
 ```
 
-Copy `client/Dockerfile.sample` as `client/Dockerfile`;
-Copy `server/Dockerfile.sample` as `server/Dockerfile`;
-Copy `docker-compose.yml.sample` as `docker-compose.yml`;
+Remember to change the contents in `client/static/constants` before `build`.
+
+Copy `client/Dockerfile.sample` as `client/Dockerfile`; Copy `server/Dockerfile.sample` as `server/Dockerfile`; Copy `docker-compose.yml.sample` as `docker-compose.yml`;
 
 Then set password for mongodb. Change `server/Dockerfile`:
 ```
@@ -45,6 +43,8 @@ MONGO_INITDB_ROOT_USERNAME: youruser
 MONGO_INITDB_ROOT_PASSWORD: youruser
 ```
 
+If you need front-end moderation, change the `FAQ_AUTH` value in `server/Dockerfile`, this will be the password of your front-end moderation.
+
 You can change anything else as you like in these files. For example, the volumes mapping, the ports, etc.
 
 Lastly
@@ -56,7 +56,5 @@ docker-compose up --build
 ```
 
 Or simply `chmod +x deploy.sh && ./deploy.sh`.
-
-Remember to modify the static messages in `client/static/constants`.
 
 Any kinds of contribution is welcomed.

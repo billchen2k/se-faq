@@ -8,26 +8,32 @@
     </v-row>
     <v-row align="center" justify="center">
       <div class="grey--text text-sm-body-2" @click="showLogin = true;">管理入口</div>
-      <v-card v-if="showLogin">
-        <Login @loginStatusChanged="loginStatusChanged"/>
-      </v-card>
+      <div v-if="showLogin">
+        <v-card>
+          <Login @loginStatusChanged="loginStatusChanged"/>
+        </v-card>
+      </div>
     </v-row>
     <v-row align="center" justify="center">
-      The CS version is maintained by <a style="text-decoration: none" target="_blank" href="maito:jxtxzzw@126.com">
-      <v-icon small>mdi-email</v-icon>
-      <span class="grey--text text-sm-body-2 mx-2">jxtxzzw</span></a> at
-      <a style="text-decoration: none" target="_blank" href="https://github.com/jxtxzzw/se-faq">
-        <v-icon small>mdi-github</v-icon>
-        <span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>
-    </v-row>
-    <v-row align="center" justify="center">
-      (Forked from the SE version: <a style="text-decoration: none" target="_blank"
-                                      href="https://github.com/BillChen2K/se-faq">
+      (This SE-FAQ (<a style="text-decoration: none" target="_blank"
+                       href="https://github.com/BillChen2K/se-faq">
       <v-icon small>mdi-github</v-icon>
-      <span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>, powered and maintained by
+      <span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>) is powered and maintained by
       <a style="text-decoration: none" target="_blank" href="maito:Bill.Chen@live.com">
         <v-icon small>mdi-email</v-icon>
         <span class="grey--text text-sm-body-2 mx-2">BillC</span></a>)
+    </v-row>
+    <v-row align="center" justify="center">
+      The CS version is forked at
+      <a style="text-decoration: none" target="_blank" href="https://github.com/jxtxzzw/se-faq">
+        <v-icon small>mdi-github</v-icon>
+        <span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>, and maintained by <a
+        style="text-decoration: none" target="_blank" href="maito:jxtxzzw@126.com">
+      <v-icon small>mdi-email</v-icon>
+      <span class="grey--text text-sm-body-2 mx-2">jxtxzzw</span></a>
+    </v-row>
+    <v-row align="center" justify="center">
+      Any kind of contribution is welcomed.
     </v-row>
   </div>
 </template>
@@ -48,14 +54,10 @@ export default {
     }
   },
   methods: {
-    loginStatusChanged () {
+    loginStatusChanged() {
       this.showLogin = false;
       this.$emit("loginStatusChanged");
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

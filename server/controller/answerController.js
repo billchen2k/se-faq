@@ -90,10 +90,11 @@ const answerController = {
             });
         });
     },
+
     async endorse(req, res) {
-        console.log(req.userData);
+        // Verification again. Note manually POST a request will not be accepted, unless it has a correct TOKEN
         if (req.userData) {
-           await Answer.findOne({_id: req.params.id}, async (err, oldAnswer) => {
+            await Answer.findOne({_id: req.params.id}, async (err, oldAnswer) => {
                 let newRecord = new Record({
                     ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
                     operation: 'endorse/unendorse',
@@ -104,16 +105,18 @@ const answerController = {
                     return;
                 }
                 await newRecord.save();
-               await Answer.updateOne({_id: req.params.id}, {endorsed: !oldAnswer.endorsed}, (err, updated) => {
+                await Answer.updateOne({_id: req.params.id}, {endorsed: !oldAnswer.endorsed}, (err, updated) => {
                     res.json(Result.ok(updated));
                 });
             });
         } else {
+            // Unauthorized (401), or, Forbidden (403). In this scenario, they are the same.
             res.sendStatus(403);
         }
     },
     async hide(req, res) {
-        if (req.userData)  {
+        // Authorization Verification
+        if (req.userData) {
             await Answer.findOne({_id: req.params.id}, async (err, oldAnswer) => {
                 let newRecord = new Record({
                     ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
@@ -130,6 +133,7 @@ const answerController = {
                 });
             });
         } else {
+            // 401 and 403 are the same in this case
             res.sendStatus(403);
         }
     }

@@ -3,11 +3,8 @@
     <v-navigation-drawer app v-model="drawer">
       <side-navigation :questions="questions"></side-navigation>
     </v-navigation-drawer>
-
-
     <v-main>
       <v-container fluid>
-
         <v-row align="center" justify="center">
           <v-col md="11" lg="9">
             <welcome-header></welcome-header>
@@ -20,18 +17,13 @@
             <Footer id="foot" @loginStatusChanged="loginStatusChanged"></Footer>
           </v-col>
         </v-row>
-
       </v-container>
-
       <question-creator v-on:submit="fetchData"></question-creator>
     </v-main>
-
   </v-app>
-
 </template>
 
 <script>
-
 import WelcomeHeader from "@/components/WelcomeHeader";
 import Footer from "@/components/Footer";
 import QAItemList from "@/components/QAItemList";
@@ -44,11 +36,9 @@ import {format} from 'date-fns'
 
 export default {
   name: 'App',
-
   components: {
     WelcomeHeader, Footer, Notice, SideNavigation, QuestionCreator, QAItemList
   },
-
   data: () => ({
     drawer: true,
     loading: true,
@@ -91,9 +81,9 @@ export default {
             let record = res.data.data;
             let localUpvotedAnswers = [], localDownvotedAnsers = [];
             record.forEach(one => {
-              if (one.operation == 'upvote') {
+              if (one.operation === 'upvote') {
                 localUpvotedAnswers.push(one.answer_id);
-              } else if (one.operation == 'downvote') {
+              } else if (one.operation === 'downvote') {
                 localDownvotedAnsers.push(one.answer_id);
               }
             })
@@ -102,10 +92,10 @@ export default {
           });
     },
 
+    // When login status changed, reload data
     loginStatusChanged() {
       this.reloadData();
     },
-
     reloadData() {
       this.questions = [];
       this.fillRecord();
@@ -114,7 +104,7 @@ export default {
   },
 
   mounted() {
-    document.title = "Hello CS - ECNU";
+    document.title = "Hello ECNU";
     this.reloadData();
   }
 };
