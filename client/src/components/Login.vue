@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="user">
-      <v-btn color="error" class="mr-4" @click="logout">
+      <v-btn color="error" class="mr-4" @click="logout" outlined block>
         注销
       </v-btn>
     </div>
     <div v-else>
-        <v-text-field v-model="password" label="密码" required/>
-        <v-btn color="success" class="mr-4" @click="login">
+        <v-text-field v-model="password" label="密码" color="green" required type="password" prepend-icon="mdi-lock"/>
+        <v-btn color="success" class="mr-4" @click="login" outlined block>
           验证
         </v-btn>
     </div>

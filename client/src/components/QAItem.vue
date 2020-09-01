@@ -112,6 +112,10 @@
                 </v-list-item>
               </v-list-item-group>
             </v-list>
+            <v-row class="ml-5" v-if="user">
+              <v-switch class="ma-1" v-model="answer.endorsed" label="认可" v-on:change="changeEndorsed(answer._id)"/>
+              <v-switch class="ma-1" v-model="answer.hide" label="隐藏" v-on:change="changeHidden(answer._id)"></v-switch>
+            </v-row>
           </v-col>
           <v-col sm="2" class="py-2 pl-1">
             <v-btn :disabled="ifUpvoted(answer._id) || ifDownvoted(answer._id)"
@@ -129,10 +133,8 @@
               <v-icon class="pr-2">mdi-arrow-down-thick</v-icon>
               <span style="font-size: 120%">{{ answer.downvote }}</span></v-btn>
             <!-- Only show the operations when admin is logged in. A back-end verification is still needed. -->
-            <div v-if="user">
-              <v-switch v-model="answer.endorsed" label="认可" v-on:change="changeEndorsed(answer._id)"/>
-              <v-switch v-model="answer.hide" label="隐藏" v-on:change="changeHidden(answer._id)"></v-switch>
-            </div>
+
+
           </v-col>
         </v-row>
       </v-col>
@@ -157,7 +159,6 @@ import config from '../../config.js';
 import {format} from 'date-fns';
 import pangu from 'remark-pangu';
 import remark from 'remark';
-import {mainColor} from "../../static/constants";
 import {getUserDetails} from "@/plugins/auth";
 
 export default {
@@ -172,7 +173,7 @@ export default {
   data() {
     return {
       getUserDetails,
-      mainColor,
+      mainColor: 'green',
       user: null,
       new_answer: '',
       loading: true,
