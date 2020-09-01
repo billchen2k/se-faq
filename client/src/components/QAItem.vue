@@ -70,6 +70,7 @@
                 </v-tooltip>
               </v-list-item-group>
             </v-list>
+
           </v-col>
         </v-row>
 
@@ -86,24 +87,21 @@
         <v-row class="pr-5" v-for="answer in answers" :key="answer._id">
           <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')">
             <v-list nav>
-              <v-list-item-group class="mb-1" multiple mandatory color="black">
+              <v-list-item-group class="mb-1" multiple mandatory :color="answer.hide ?  'grey' : (answer.endorsed ? 'orange darken-2' : 'black')">
                 <v-list-item @click="prepareReply(answer.index, answer.content)">
                   <v-list-item-avatar>
                     <v-row no-gutters>
                       <v-col sm="12" no-gutters>
-                        <v-icon color="grey darken-2">mdi-lead-pencil</v-icon>
+                        <v-icon v-if="answer.endorsed">mdi-star-box</v-icon>
+                        <v-icon v-else color="grey darken-2">mdi-lead-pencil</v-icon>
                       </v-col>
                       <v-col sm="12" no-gutters>
-                        <div style="font-size: 75%; color: #555555">#{{ answer.index }}</div>
+                        <div style="font-size: 75%; color: #555555"> #{{ answer.index }}</div>
                       </v-col>
                     </v-row>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                    <div v-if="answer.endorsed">
-                      <v-alert type="success">
-                        这个回答被认可了
-                      </v-alert>
-                    </div>
+
                     <vue-markdown>{{ answer.content }}</vue-markdown>
                     <v-list-item-subtitle class="" align="right">
                       {{ answer.ecnuid ? (answer.ecnuid.substring(2, 4) + ' 级 || ') : '' }}{{ answer.timestamp }}
@@ -113,8 +111,9 @@
               </v-list-item-group>
             </v-list>
             <v-row class="ml-5" v-if="user">
-              <v-switch class="ma-1" v-model="answer.endorsed" label="认可" v-on:change="changeEndorsed(answer._id)"/>
-              <v-switch class="ma-1" v-model="answer.hide" label="隐藏" v-on:change="changeHidden(answer._id)"></v-switch>
+              <v-switch color="orange" class="ma-1" v-model="answer.endorsed" label="精选" v-on:change="changeEndorsed(answer._id)"/>
+              <v-switch color="green" class="ma-1" v-model="answer.hide" label="隐藏" v-on:change="changeHidden(answer._id)"></v-switch>
+              <span class="grey--text pa-2">IP : {{answer.ip == '::1' ? 'unknown' : answer.ip}}</span>
             </v-row>
           </v-col>
           <v-col sm="2" class="py-2 pl-1">
@@ -303,7 +302,7 @@ export default {
           .then(response => {
             // Changed successfully
             if (response.data.success) {
-              this.popSnack('已更改认可状态');
+              this.popSnack('已更改精选状态');
               this.fetchAnswers();
             } else {
               throw new Error(response.data.message);
