@@ -1,11 +1,10 @@
-> Forked from BillChen2K/se-faq.
->
-> Additional features might be merged back to the original repository.
->
-
 # se-faq
 
-A guide and simple QA platform for Computer Science freshmen in East China Normal University.
+A guide and simple QA platform for Software Engineering / Computer Science freshmen in East China Normal University.
+
+> The SE-FAQ is powered and maintained by BillC at BillChen2k/se-faq
+>
+> The CS version is forked and maintained by jxtxzzw at jxtxzzw/se-faq
 
 ## Techstack:
 
@@ -21,7 +20,7 @@ npm install npm@latest -g
 npm install n -g
 n latest
 npm install yarn
-git clone https://github.com/jxtxzzw/se-faq
+git clone https://github.com/BillChen2K/se-faq
 cd se-faq
 cd client && yarn && yarn build && cd ..
 ```

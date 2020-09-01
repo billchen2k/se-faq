@@ -1,19 +1,33 @@
 @import url('https://fonts.geekzu.org/css?family=Fira+Code');
+@import url('https://fonts.geekzu.org/css?family=Overpass');
 
 #app {
-    font-family: "Fira Code", "PingFang SC", "Microsoft YaHei UI";
+    font-family: Overpass, "Fira Code", "PingFang SC", "Microsoft YaHei UI";
     background-color: #ffffff;
+
+
 }
 
 .v-application {
-    font-family: "Fira Code", "PingFang SC", "Microsoft YaHei UI";
-}
+    font-family: Overpass, "Fira Code", "PingFang SC", "Microsoft YaHei UI";
 
-img {
-    max-width: 95%;
 }
 
 .v-application p {
+    line-height: 150%;
+    margin-bottom: 2px;
+}
+
+blockquote {
+    background-color: #EEEEEE;
+    padding-left: 8px;
+    padding-right: 6px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+    border-radius: 3px;
+    border-left: #666666 6px solid;
+    color: #555555;
+    margin: 2px;
     color: #444444;
     margin-bottom: 0;
 }

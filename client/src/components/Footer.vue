@@ -15,13 +15,13 @@
       </div>
     </v-row>
     <v-row align="center" justify="center">
-      (This SE-FAQ (<a style="text-decoration: none" target="_blank"
+      This SE-FAQ (<a style="text-decoration: none" target="_blank"
                        href="https://github.com/BillChen2K/se-faq">
       <v-icon small>mdi-github</v-icon>
       <span class="grey--text text-sm-body-2 mx-2">GitHub</span></a>) is powered and maintained by
       <a style="text-decoration: none" target="_blank" href="maito:Bill.Chen@live.com">
         <v-icon small>mdi-email</v-icon>
-        <span class="grey--text text-sm-body-2 mx-2">BillC</span></a>)
+        <span class="grey--text text-sm-body-2 mx-2">BillC</span></a>
     </v-row>
     <v-row align="center" justify="center">
       The CS version is forked at

@@ -11,6 +11,8 @@
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.0",
+    "remark": "^12.0.1",
+    "remark-pangu": "^2.1.1",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-jwt-decode": "^0.1.0",

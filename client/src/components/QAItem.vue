@@ -6,6 +6,8 @@
       </v-col>
 
       <v-col sm="12" md="11">
+
+        <!-- QUESTION -->
         <v-row class="pr-3">
           <v-col sm="12" class="py-0">
             <v-list nav>
@@ -16,14 +18,16 @@
                       <template v-slot:activator="{on: dialog}">
                         <v-list-item
                             v-on="{...dialog, ...tooltip}"
+                            @click="new_answer = ''"
                         >
                           <v-list-item-avatar>
-                            <v-icon>mdi-comment-question-outline</v-icon>
+                            <v-icon>mdi-comment-question</v-icon>
+
                           </v-list-item-avatar>
                           <v-list-item-content>
                             <strong>
                               <vue-markdown>{{ question.content }}</vue-markdown>
-                              ></strong>
+                            </strong>
                             <v-list-item-subtitle align="right">{{ question.timestamp }}
                             </v-list-item-subtitle>
                           </v-list-item-content>
@@ -32,28 +36,35 @@
 
 
                       <v-card class="pa-6">
-                        <v-textarea filled v-model="new_answer" :rules="[rules.length]"
+                        <v-textarea filled v-model="new_answer" :rules="[rules.length]" autofocus
                                     prepend-icon="mdi-lead-pencil" :color="mainColor" clearable
-                                    counter
-                                    label="添加回答" :placeholder="question.content"
+                                    counter style="font-family: 'Fira Code'"
+                                    :label="new_answer.includes('Re:') ? '回复回答' : '添加回答'"
+                                    :placeholder="question.content" ref="answerField"
                         ></v-textarea>
                         <v-text-field
+                            style="font-family: 'Fira Code'"
                             prepend-icon="mdi-id-card" clearable
                             :rules="[rules.ecnuid]" v-model="ecnuid"
                             label="ECNU 学号" placeholder="仅作身份验证，前端不展示" :color="mainColor">
                         </v-text-field>
                         <v-card-actions>
                           <v-row>
-                            <span class="text-body-2">预览：</span>
-                            <div style="max-width: 75%;">
-                              <vue-markdown :source="new_answer"></vue-markdown>
-                            </div>
-                            <v-spacer></v-spacer>
-                            <v-btn @click="createAnswer" :color="mainColor" outlined>回复</v-btn>
+                            <v-icon class="mr-2 pl-1">mdi-language-markdown</v-icon>
+                            <v-col md="10" sm="6" class="pa-0 pr-4">
+                              <v-slide-y-transition leave-absolute>
+                                <v-card :key="new_answer.length>0" v-if="new_answer.length>0" outlined class="pa-2">
+                                  <vue-markdown :source="new_answer"></vue-markdown>
+                                </v-card>
+                                <div v-else class="grey--text text-body-2 pl-1 pt-2">预览</div>
+                              </v-slide-y-transition>
+                            </v-col>
+                            <v-btn align="right" @click="createAnswer" :color="mainColor" outlined>reply!</v-btn>
                           </v-row>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
+
                   </template>
                   <span>点击问题以添加答案</span>
                 </v-tooltip>
@@ -62,8 +73,9 @@
           </v-col>
         </v-row>
 
+
         <!-- ANSWERS -->
-        <v-row v-if="answers.length === 0 && !loading">
+        <v-row v-if="answers.length == 0 && !loading">
           <v-col :class="'pr-8 ' + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : 'pl-5')" sm="12">
             <v-btn :color="mainColor" block outlined @click="dialog = true">
               <v-icon small class="mr-2">mdi-lead-pencil</v-icon>
@@ -75,9 +87,16 @@
           <v-col sm="10" :class="'py-0 pr-0 '  + ($vuetify.breakpoint.mdAndUp ? 'pl-16' : '')">
             <v-list nav>
               <v-list-item-group class="mb-1" multiple mandatory color="black">
-                <v-list-item>
+                <v-list-item @click="prepareReply(answer.index, answer.content)">
                   <v-list-item-avatar>
-                    <v-icon>mdi-lead-pencil</v-icon>
+                    <v-row no-gutters>
+                      <v-col sm="12" no-gutters>
+                        <v-icon color="grey darken-2">mdi-lead-pencil</v-icon>
+                      </v-col>
+                      <v-col sm="12" no-gutters>
+                        <div style="font-size: 75%; color: #555555">#{{ answer.index }}</div>
+                      </v-col>
+                    </v-row>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <div v-if="answer.endorsed">
@@ -86,7 +105,7 @@
                       </v-alert>
                     </div>
                     <vue-markdown>{{ answer.content }}</vue-markdown>
-                    <v-list-item-subtitle align="right">
+                    <v-list-item-subtitle class="" align="right">
                       {{ answer.ecnuid ? (answer.ecnuid.substring(2, 4) + ' 级 || ') : '' }}{{ answer.timestamp }}
                     </v-list-item-subtitle>
                   </v-list-item-content>
@@ -123,7 +142,7 @@
       {{ snackbar_text }}
       <template v-slot:action="{ attrs }">
         <v-btn :color="mainColor" text v-bind="attrs" @click="snackbar = false">
-          关闭
+          CLOSE
         </v-btn>
       </template>
     </v-snackbar>
@@ -136,8 +155,10 @@ import VueMarkdown from 'vue-markdown'
 import axios from 'axios';
 import config from '../../config.js';
 import {format} from 'date-fns';
+import pangu from 'remark-pangu';
+import remark from 'remark';
 import {mainColor} from "../../static/constants";
-import { getUserDetails } from "@/plugins/auth";
+import {getUserDetails} from "@/plugins/auth";
 
 export default {
   name: "QAItem",
@@ -172,7 +193,7 @@ export default {
           return true;
         },
         ecnuid: text => {
-          if (text.length !== 11 || (text.substring(4, 8) !== '5101' && text.substring(4, 8) !== '5102') || (text.substring(0, 3) !== '101' && text.substring(0, 3) !== '102')) {
+          if (text.length != 11 || (text.substring(4, 8) != '5101' && text.substring(4, 8) != '5102') || (text.substring(0, 3) != '101' && text.substring(0, 3) != '102')) {
             return '非法的学号'
           }
           return true;
@@ -187,11 +208,15 @@ export default {
       axios.get(config.api + "/answerOfQuestion/" + this.question._id)
           .then(response => {
             if (response.data.success) {
-              response.data.data.map(one => {
+              response.data.data.map((one, index) => {
                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
+                one.index = index;
+                remark().use(pangu).process(one.content, (err, doc) => {
+                  one.content = String(doc);
+                });
                 return one;
               })
-              this.answers = response.data.data.filter((one) => (!one.hide || this.user));
+              this.answers = response.data.data.filter(one => (!one.hide || this.user));
             } else {
               throw new Error(response.data.message);
             }
@@ -224,6 +249,9 @@ export default {
     upvote(answer_id) {
       axios.get(`${config.api}/upvoteAnswer/${answer_id}`)
           .then(response => {
+            // if (!localStorage.upvoted) {
+            //     localStorage.upvoted = JSON.stringify("[]");
+            // }
             if (response.data.success) {
               let upvoted = Array.from(JSON.parse(localStorage.upvoted));
               upvoted.push(answer_id);
@@ -244,6 +272,9 @@ export default {
     downvote(answer_id) {
       axios.get(`${config.api}/downvoteAnswer/${answer_id}`)
           .then(response => {
+            // if (!localStorage.downvoted) {
+            //     localStorage.downvoted = JSON.stringify("[]");
+            // }
             if (response.data.success) {
               let downvoted = Array.from(JSON.parse(localStorage.downvoted));
               downvoted.push(answer_id);
@@ -311,7 +342,7 @@ export default {
         return;
       }
       console.log(this.rules.ecnuid(this.ecnuid));
-      if (this.rules.ecnuid(this.ecnuid) !== true) {
+      if (this.rules.ecnuid(this.ecnuid) != true) {
         this.popSnack("学号不太对劲。")
         return;
       }
@@ -337,8 +368,14 @@ export default {
           .finally(() => {
             this.loading = false;
           })
+    },
+
+    prepareReply(index, content) {
+      this.dialog = true;
+      this.new_answer = `> Re:#${index} ${content.replace('\n\n', '\n')} \n\n`;
     }
   },
+
   mounted() {
     this.fetchAnswers();
   },

@@ -14,7 +14,7 @@
               <v-card-text>Loading...</v-card-text>
             </v-card>
             <q-a-item-list :questions="questions"></q-a-item-list>
-            <Footer id="foot" @loginStatusChanged="loginStatusChanged"></Footer>
+            <Footer @loginStatusChanged="loginStatusChanged"></Footer>
           </v-col>
         </v-row>
       </v-container>
@@ -33,6 +33,8 @@ import QuestionCreator from "@/components/QuestionCreator";
 import axios from 'axios';
 import config from "../config.js"
 import {format} from 'date-fns'
+import pangu from 'remark-pangu';
+import remark from 'remark';
 
 export default {
   name: 'App',
@@ -53,6 +55,7 @@ export default {
     questions: []
   }),
 
+
   methods: {
     fetchData() {
       this.loading = true;
@@ -65,6 +68,9 @@ export default {
             q = q.filter(one => !one.hide);
             q = q.map(one => {
               one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
+              remark().use(pangu).process(one.content, (err, doc) => {
+                one.content = String(doc);
+              });
               return one;
             })
 
@@ -91,7 +97,6 @@ export default {
             localStorage.downvoted = JSON.stringify(localDownvotedAnsers);
           });
     },
-
     // When login status changed, reload data
     loginStatusChanged() {
       this.reloadData();
@@ -102,14 +107,9 @@ export default {
       this.fetchData();
     }
   },
-
   mounted() {
     document.title = "Hello ECNU";
     this.reloadData();
   }
 };
 </script>
-
-<style scoped>
-
-</style>

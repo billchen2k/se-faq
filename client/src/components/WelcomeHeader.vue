@@ -32,6 +32,7 @@
 <script>
 import {mainColor, schoolName, schoolNameAbbr, schoolQQ, schoolWeb} from "../../static/constants";
 import {getUserDetails} from "@/plugins/auth";
+
 export default {
   name: "WelcomeHeader",
   data() {
@@ -116,6 +117,7 @@ export default {
 
 <style scoped>
 .text-welcome {
+  font-family: Fira Code;
   font-size: 250%;
   font-weight: bold;
 }
