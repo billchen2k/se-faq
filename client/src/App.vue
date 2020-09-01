@@ -39,7 +39,8 @@
     import axios from 'axios';
     import config from "../config.js"
     import {format} from 'date-fns'
-    import pangu from 'pangu'
+    import pangu from 'remark-pangu';
+    import remark from 'remark';
 
     export default {
         name: 'App',
@@ -74,7 +75,9 @@
                         q = q.filter(one => !one.hide);
                         q = q.map(one => {
                             one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
-                            one.content = pangu.spacing(one.content);
+                            remark().use(pangu).process(one.content, (err, doc) => {
+                                one.content = String(doc);
+                            });
                             return one;
                         })
 

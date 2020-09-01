@@ -145,7 +145,8 @@
     import axios from 'axios';
     import config from '../../config.js';
     import { format } from 'date-fns';
-    import pangu from 'pangu';
+    import pangu from 'remark-pangu';
+    import remark from 'remark';
 
     export default {
         name: "QAItem",
@@ -195,7 +196,9 @@
                             response.data.data.map((one, index) => {
                                 one.timestamp = format(new Date(one.timestamp), 'yyyy-MM-dd HH:mm:ss');
                                 one.index = index;
-                                one.content = pangu.spacing(one.content);
+                                remark().use(pangu).process(one.content, (err, doc) => {
+                                    one.content = String(doc);
+                                });
                                 return one;
                             })
                             this.answers = response.data.data.filter(one => !one.hide);
