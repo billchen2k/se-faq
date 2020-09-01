@@ -1,0 +1,5 @@
+export const mainColor = '#4CAF50'
+export const schoolName = '软件工程学院'
+export const schoolNameAbbr = '软工'
+export const schoolWeb = 'http://sei.ecnu.edu.cn/'
+export const schoolQQ = '1132541055'

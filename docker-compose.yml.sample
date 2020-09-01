@@ -19,6 +19,8 @@ services:
     depends_on:
       - "db"
     restart: always
+    ports:
+      - 3001:3000
   nginx:
     build: client
     container_name: nginx

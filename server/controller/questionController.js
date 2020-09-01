@@ -1,4 +1,4 @@
-const { Question, Result } = require('../model');
+const {Question, Result} = require('../model');
 const Utils = require('../util');
 
 const questionController = {
@@ -15,20 +15,23 @@ const questionController = {
         })
     },
     update(req, res) {
-        Question.updateOne( {_id: req.params.id}, {...req.body} , (err, updated) => {
+        Question.updateOne({_id: req.params.id}, {...req.body}, (err, updated) => {
             res.json(Result.ok(updated));
         });
     },
     async create(req, res) {
         let newQuestion = new Question(req.body);
         // 5 question 1 day at most.
-        let asked = await Question.find( { ip: Utils.extractIP(req), timestamp: { $gte: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString()} } ).exec();
-        if(asked.length > 5){
+        let asked = await Question.find({
+            ip: Utils.extractIP(req),
+            timestamp: {$gte: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString()}
+        }).exec();
+        if (asked.length > 5) {
             console.log(asked);
             res.json(Result.error('', '每天最多 5 个问题。'));
             return;
         }
-        if(!newQuestion.content) {
+        if (!newQuestion.content) {
             res.json(Result.error(newQuestion, "Content is required."));
             return;
         }
@@ -40,7 +43,7 @@ const questionController = {
         })
     },
     remove(req, res) {
-        Question.remove({ _id: req.params.id }, (err, removed) => {
+        Question.remove({_id: req.params.id}, (err, removed) => {
             res.json(Result.ok(removed));
         })
     }

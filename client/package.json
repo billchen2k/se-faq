@@ -15,6 +15,7 @@
     "remark-pangu": "^2.1.1",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
+    "vue-jwt-decode": "^0.1.0",
     "vue-markdown": "^2.2.4",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.2.0",
