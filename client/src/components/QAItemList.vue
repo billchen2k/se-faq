@@ -162,7 +162,6 @@
                                 .then(res => {
                                     console.warn(res);
                                 })
-                            console.log(response);
                         })
                 })
             }

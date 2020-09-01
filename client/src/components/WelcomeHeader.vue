@@ -26,14 +26,17 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
 import {mainColor, schoolName, schoolNameAbbr, schoolQQ, schoolWeb} from "../../static/constants";
-    export default {
+
+export default {
         name: "WelcomeHeader",
         data() {
             return {
                 mainColor,
                 schoolName,
                 schoolNameAbbr,
+                user: null,
                 titleText: "$ > ",
                 fullText: "Hello, Computer Science.",
                 dash: true,
@@ -75,6 +78,16 @@ import {mainColor, schoolName, schoolNameAbbr, schoolQQ, schoolWeb} from "../../
         },
 
         methods: {
+          getUserDetails () {
+              let token = localStorage.getItem("jwt");
+              if (token) {
+                this.user = VueJwtDecode.decode(token);
+              } else {
+                this.user = null;
+              }
+            },
+
+
             jump(url){
                 window.open(url);
             },
@@ -101,6 +114,10 @@ import {mainColor, schoolName, schoolNameAbbr, schoolQQ, schoolWeb} from "../../
 
         mounted() {
             this.addWord(0);
+        },
+
+        created() {
+          this.getUserDetails();
         }
     }
 </script>

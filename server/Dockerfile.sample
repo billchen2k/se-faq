@@ -10,6 +10,7 @@ ENV NODE_ENV=production
 ENV MONGO_URI=mongodb://db:27017/admin
 ENV MONGO_USER=auser
 ENV MONGO_PASS=apassword
+ENV FAQ_AUTH=adminpassword
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
