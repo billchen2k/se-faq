@@ -44,7 +44,7 @@ MONGO_INITDB_ROOT_USERNAME: youruser
 MONGO_INITDB_ROOT_PASSWORD: youruser
 ```
 
-If you need front-end moderation, change the `FAQ_AUTH` value in `server/Dockerfile`, this will be the password of your front-end moderation.
+If you need the admin comments directly from the web page , change the `FAQ_AUTH` value in `server/Dockerfile`, this will be the password of your admin panel.
 
 To access admin panel, you should add `admin=1` after your URL, such as `http://localhost?admin=1`.
 
@@ -60,4 +60,4 @@ docker-compose up --build
 
 Or simply `chmod +x deploy.sh && ./deploy.sh`.
 
-Any kinds of contribution is welcomed.
+All kinds of contribution is welcomed.
